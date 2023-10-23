@@ -7,7 +7,7 @@ let matches = books
 
 const starting = document.createDocumentFragment()
 /**
- * Render book previews based on a subset of `matches`.
+ * Render book previews based on a subset of matches.
  *
  * @param {Array} matches - An array of book objects containing author, id, image, and title.
  * @param {number} startIndex - The starting index for slicing the `matches` array.
