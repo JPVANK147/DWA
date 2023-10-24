@@ -133,7 +133,7 @@ searchCancelButton.addEventListener('click', () => {
     searchOverlay.open = false
 })
 
-const settingCancelbutton =  document.querySelector('[data-settings-cancel]')
+const settingCancelbutton = document.querySelector('[data-settings-cancel]')
 const settingOverlay = document.querySelector('[data-settings-overlay]')
 
 settingCancelbutton.addEventListener('click', () => {
@@ -144,14 +144,14 @@ const headerSearchButton = document.querySelector('[data-header-search]')
 const searchTitle = document.querySelector('[data-search-title]')
 
 headerSearchButton.addEventListener('click', () => {
-    searchOverlay.open = true 
+    searchOverlay.open = true
     searchTitle.focus()
 })
 
 const headerSettingButton = document.querySelector('[data-header-settings]')
 
 headerSettingButton.addEventListener('click', () => {
-    settingOverlay.open = true 
+    settingOverlay.open = true
 })
 
 const listCloseButton = document.querySelector('[data-list-close]')
@@ -168,6 +168,7 @@ listCloseButton.addEventListener('click', () => {
  */
 const settingOverlayForm = document.querySelector('[data-settings-form]')
 
+
 settingOverlayForm.addEventListener('submit', (event) => {
     // Prevent the default form submission behavior.
     event.preventDefault()
@@ -178,18 +179,30 @@ settingOverlayForm.addEventListener('submit', (event) => {
     // Extract the 'theme' property from the form data and assign it to the 'theme' variable.
     const { theme } = Object.fromEntries(formData)
 
-    // Check the selected theme and set CSS custom properties accordingly.
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255')
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20')
-    } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20')
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255')
-    }
+    // Update the theme based on the selected option.
+    updateTheme(theme)
 
     // Close the Overlay
     settingOverlay.open = false
 })
+
+/**
+ * Updates the theme of the application based on the selected option.
+ *
+ * @param {string} selectedTheme - The selected theme ('night' or 'day').
+ */
+const updateTheme = (selectedTheme) => {
+    const rootTheme = document.documentElement
+
+    if (selectedTheme === 'night') {
+        rootTheme.style.setProperty('--color-dark', '255, 255, 255')
+        rootTheme.style.setProperty('--color-light', '10, 10, 20')
+    } else {
+        rootTheme.style.setProperty('--color-dark', '10, 10, 20')
+        rootTheme.style.setProperty('--color-light', '255, 255, 255')
+    }
+}
+
 
 /**
  * Handles the form submission for book searching and updates the displayed book list.
@@ -200,7 +213,7 @@ const searchForm = document.querySelector('[data-search-form]')
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    
+
     // Get the form data and apply filters
     const formData = new FormData(event.target)
     const filters = Object.fromEntries(formData)
@@ -282,47 +295,62 @@ searchForm.addEventListener('submit', (event) => {
     searchOverlay.open = false
 })
 
-// list item
 /**
  * Event listener for the "Show more" button that loads and displays additional items.
  */
 const listButton = document.querySelector('[data-list-button]')
-listButton.addEventListener('click', () => {
+listButton.addEventListener('click', handleShowMoreClick)
+
+/**
+ * Handles the "Show more" button click by loading and displaying additional items.
+ */
+function handleShowMoreClick() {
     const fragment = document.createDocumentFragment()
+    const startOfPage = page * BOOKS_PER_PAGE
+    const endOfPage = (page + 1) * BOOKS_PER_PAGE
 
-    for (const { author, id, image, title } of matches.slice(page * BOOKS_PER_PAGE, (page + 1) * BOOKS_PER_PAGE)) {
-        const element = document.createElement('button')
-        element.classList = 'preview'
-        element.setAttribute('data-preview', id)
-
-        element.innerHTML = `
-            <img
-                class="preview__image"
-                src="${image}"
-            />
-
-            <div class="preview__info">
-                <h3 class="preview__title">${title}</h3>
-                <div class="preview__author">${authors[author]}</div>
-            </div>
-        `;
-
+    const itemsToDisplay = matches.slice(startOfPage, endOfPage)
+    itemsToDisplay.forEach((book) => {
+        const element = createPreview(book)
         fragment.appendChild(element)
-    }
+    })
 
     listItems.appendChild(fragment)
     page += 1
-});
+}
 
 /**
- * Event listener for item clicks within the list. Displays item details in an overlay.
+ * Creates a button element representing a book preview.
+ *
+ * @param {object} book - The book data to create the preview for.
+ * @returns {HTMLButtonElement} The created button element.
  */
-const listItems = document.querySelector('[data-list-items]')
-const listblurImage = document.querySelector('[data-list-blur]')
-const listImage = document.querySelector('[data-list-image]')
-const listTitle = document.querySelector('[data-list-title]')
-const listSubtitle = document.querySelector('[data-list-subtitle]')
-const listDescription = document.querySelector('[data-list-description]')
+function createPreview(book) {
+    const { author, id, image, title } = book
+    const element = document.createElement('button')
+    element.classList = 'preview'
+    element.setAttribute('data-preview', id)
+
+    element.innerHTML = `
+        <img
+            class="preview__image"
+            src="${image}"
+        >
+
+        <div class="preview__info">
+            <h3 class="preview__title">${title}</h3>
+            <div class="preview__author">${authors[author]}</div>
+        `;
+
+    return element
+}
+
+const listItems = document.querySelector('[data-list-items]');
+const listblurImage = document.querySelector('[data-list-blur]');
+const listImage = document.querySelector('[data-list-image]');
+const listTitle = document.querySelector('[data-list-title]');
+const listSubtitle = document.querySelector('[data-list-subtitle]');
+const listDescription = document.querySelector('[data-list-description]');
 
 listItems.addEventListener('click', (event) => {
     const pathArray = Array.from(event.path || event.composedPath())
@@ -336,19 +364,23 @@ listItems.addEventListener('click', (event) => {
 
             for (const singleBook of books) {
                 if (result) break
-                if (singleBook.id === node?.dataset?.preview) result = singleBook;
+                if (singleBook.id === node?.dataset?.preview) result = singleBook
             }
 
-            active = result;
+            active = result
         }
     }
 
     if (active) {
-        listOverlay.open = true
-        listblurImage.src = active.image
-        listImage.src = active.image
-        listTitle.innerText = active.title
-        listSubtitle.innerText = `${authors[active.author]} (${new Date(active.published).getFullYear()})`
-        listDescription.innerText = active.description
+        displayBookDetails(active)
     }
 })
+
+const displayBookDetails = (active) => {
+    listOverlay.open = true
+    listblurImage.src = active.image
+    listImage.src = active.image
+    listTitle.innerText = active.title
+    listSubtitle.innerText = `${authors[active.author]} (${new Date(active.published).getFullYear()})`
+    listDescription.innerText = active.description
+};
