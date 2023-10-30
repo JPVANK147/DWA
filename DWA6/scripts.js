@@ -203,7 +203,6 @@ const updateTheme = (selectedTheme) => {
     }
 }
 
-
 /**
  * Handles the form submission for book searching and updates the displayed book list
  *
