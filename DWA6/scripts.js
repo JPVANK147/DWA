@@ -7,7 +7,7 @@ let matches = books
 
 const starting = document.createDocumentFragment()
 /**
- * Render book previews based on a subset of matches.
+ * Render book previews based on a subset of matches
  *
  * @param {Array} matches - An array of book objects containing author, id, image, and title.
  * @param {number} startIndex - The starting index for slicing the `matches` array.
@@ -34,10 +34,10 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 }
 
 /**
- * Appends an element to a specified container in the DOM.
+ * Appends an element to a specified container in the DOM
  *
- * @param {string} containerSelector - The CSS selector for the container.
- * @param {HTMLElement} element - The element to be appended to the container.
+ * @param {string} containerSelector - The CSS selector for the container
+ * @param {HTMLElement} element - The element to be appended to the container
  */
 const appendToContainer = (containerSelector, element) => {
     const container = document.querySelector(containerSelector)
@@ -47,11 +47,11 @@ const appendToContainer = (containerSelector, element) => {
 }
 
 /**
- * Creates and returns an HTML 'option' element with the specified value and text.
+ * Creates and returns an HTML 'option' element with the specified value and text
  *
- * @param {string} value - The 'value' attribute for the option element.
- * @param {string} text - The text to be displayed in the option element.
- * @returns {HTMLOptionElement} The created option element.
+ * @param {string} value - The 'value' attribute for the option element
+ * @param {string} text - The text to be displayed in the option element
+ * @returns {HTMLOptionElement} The created option element
  */
 const createOptionElement = (value, text) => {
     const option = document.createElement('option')
@@ -108,7 +108,7 @@ const setThemeBasedOnMediaQuery = () => {
 setThemeBasedOnMediaQuery()
 
 /**
- * Updates the "Show more" button's text and disabled state based on the remaining books to display.
+ * Updates the "Show more" button's text and disabled state based on the remaining books to display
  */
 function showmoreoftheremainingbook() {
     const rootButton = document.querySelector('[data-list-button]')
@@ -162,24 +162,24 @@ listCloseButton.addEventListener('click', () => {
 })
 
 /**
- * Select the form element with a Overlay form and attach a submit event listener to it.
+ * Select the form element with a Overlay form and attach a submit event listener to it
  *
- * @param {Event} event - The submit event triggered by the form submission.
+ * @param {Event} event - The submit event triggered by the form submission
  */
 const settingOverlayForm = document.querySelector('[data-settings-form]')
 
 
 settingOverlayForm.addEventListener('submit', (event) => {
-    // Prevent the default form submission behavior.
+    // Prevent the default form submission behavior
     event.preventDefault()
 
     // Create a FormData object from the submitted form data.
     const formData = new FormData(event.target)
 
-    // Extract the 'theme' property from the form data and assign it to the 'theme' variable.
+    // Extract the 'theme' property from the form data and assign it to the 'theme' variable
     const { theme } = Object.fromEntries(formData)
 
-    // Update the theme based on the selected option.
+    // Update the theme based on the selected option
     updateTheme(theme)
 
     // Close the Overlay
@@ -187,9 +187,9 @@ settingOverlayForm.addEventListener('submit', (event) => {
 })
 
 /**
- * Updates the theme of the application based on the selected option.
+ * Updates the theme of the application based on the selected option
  *
- * @param {string} selectedTheme - The selected theme ('night' or 'day').
+ * @param {string} selectedTheme - The selected theme ('night' or 'day')
  */
 const updateTheme = (selectedTheme) => {
     const rootTheme = document.documentElement
@@ -205,7 +205,7 @@ const updateTheme = (selectedTheme) => {
 
 
 /**
- * Handles the form submission for book searching and updates the displayed book list.
+ * Handles the form submission for book searching and updates the displayed book list
  *
  * @param {Event} event - The form submission event.
  */
@@ -296,13 +296,13 @@ searchForm.addEventListener('submit', (event) => {
 })
 
 /**
- * Event listener for the "Show more" button that loads and displays additional items.
+ * Event listener for the "Show more" button that loads and displays additional items
  */
 const listButton = document.querySelector('[data-list-button]')
 listButton.addEventListener('click', handleShowMoreClick)
 
 /**
- * Handles the "Show more" button click by loading and displaying additional items.
+ * Handles the "Show more" button click by loading and displaying additional items
  */
 function handleShowMoreClick() {
     const fragment = document.createDocumentFragment()
@@ -322,15 +322,23 @@ function handleShowMoreClick() {
 /**
  * Creates a button element representing a book preview.
  *
- * @param {object} book - The book data to create the preview for.
+ * @param {object} book - The book data to create the preview for
  * @returns {HTMLButtonElement} The created button element.
  */
 function createPreview(book) {
+    // Destructuring the book object to extract specific properties
     const { author, id, image, title } = book
+
+    // Create a new button element
     const element = document.createElement('button')
+
+    // Add the 'preview' class to the button element
     element.classList = 'preview'
+
+    // Set the 'data-preview' attribute to the book's ID for identification
     element.setAttribute('data-preview', id)
 
+    // Create the HTML structure for the preview element using template literals
     element.innerHTML = `
         <img
             class="preview__image"
@@ -340,19 +348,23 @@ function createPreview(book) {
         <div class="preview__info">
             <h3 class="preview__title">${title}</h3>
             <div class="preview__author">${authors[author]}</div>
-        `;
+        `
 
+    // Return the created element
     return element
 }
 
-const listItems = document.querySelector('[data-list-items]');
-const listblurImage = document.querySelector('[data-list-blur]');
-const listImage = document.querySelector('[data-list-image]');
-const listTitle = document.querySelector('[data-list-title]');
-const listSubtitle = document.querySelector('[data-list-subtitle]');
-const listDescription = document.querySelector('[data-list-description]');
+// Selecting elements from the DOM using attribute selectors
+const listItems = document.querySelector('[data-list-items]')
+const listblurImage = document.querySelector('[data-list-blur]')
+const listImage = document.querySelector('[data-list-image]')
+const listTitle = document.querySelector('[data-list-title]')
+const listSubtitle = document.querySelector('[data-list-subtitle]')
+const listDescription = document.querySelector('[data-list-description]')
 
+// Adding a click event listener to the 'listItems' element
 listItems.addEventListener('click', (event) => {
+    // Create an array of DOM elements from the event path
     const pathArray = Array.from(event.path || event.composedPath())
     let active = null
 
@@ -362,6 +374,7 @@ listItems.addEventListener('click', (event) => {
         if (node?.dataset?.preview) {
             let result = null
 
+            // Search for the book that matches the preview value in the 'books' array
             for (const singleBook of books) {
                 if (result) break
                 if (singleBook.id === node?.dataset?.preview) result = singleBook
@@ -371,16 +384,20 @@ listItems.addEventListener('click', (event) => {
         }
     }
 
+    // If an active book is found, display its details
     if (active) {
         displayBookDetails(active)
     }
 })
 
+// Function to display book details
 const displayBookDetails = (active) => {
     listOverlay.open = true
+
+    // Update the source of the blur and main book images, and set the title, subtitle, and description
     listblurImage.src = active.image
     listImage.src = active.image
     listTitle.innerText = active.title
     listSubtitle.innerText = `${authors[active.author]} (${new Date(active.published).getFullYear()})`
     listDescription.innerText = active.description
-};
+}
