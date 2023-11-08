@@ -6,6 +6,44 @@ let page = 1
 let matches = books
 
 const starting = document.createDocumentFragment()
+
+class BookPreview {
+    constructor(matches, starting, booksPerPage) {
+        this.matches = matches
+        this.starting = starting
+        this.booksPerPage = booksPerPage
+    }
+
+    renderPreview() {
+        const matchesToRender = this.matches.slice(0, this.booksPerPage)
+
+        for (const { author, id, image, title } of matchesToRender) {
+            const element = document.createElement('button')
+            element.classList = 'preview'
+            element.setAttribute('data-preview', id)
+
+            element.innerHTML = `
+                <img
+                    class="preview__image"
+                    src="${image}"
+                />
+          
+                <div class="preview__info">
+                    <h3 class="preview__title">${title}</h3>
+                    <div class="preview__author">${authors[author]}</div>
+                </div>
+            `
+
+            this.starting.appendChild(element)
+        }
+    }
+}
+
+const booksPerPage = BOOKS_PER_PAGE
+
+const bookPreviewRenderer = new BookPreview(matches, starting, booksPerPage)
+bookPreviewRenderer.renderPreview()
+
 /**
  * Render book previews based on a subset of matches
  *
@@ -13,7 +51,7 @@ const starting = document.createDocumentFragment()
  * @param {number} startIndex - The starting index for slicing the `matches` array.
  * @param {number} endIndex - The ending index for slicing the `matches` array.
  */
-
+/*
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
@@ -33,6 +71,7 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 
     starting.appendChild(element)
 }
+*/
 
 /**
  * Appends an element to a specified container in the DOM
@@ -318,6 +357,7 @@ function handleShowMoreClick() {
     listItems.appendChild(fragment)
     page += 1
 }
+
 
 /**
  * Creates a button element representing a book preview.
