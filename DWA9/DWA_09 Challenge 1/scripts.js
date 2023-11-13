@@ -1,6 +1,7 @@
-// Fully working scripts.js file
+// // Fully working scripts.js file
 
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
+import './components/lists-of-books.js'
 
 let page = 1
 let matches = books
@@ -168,7 +169,6 @@ listCloseButton.addEventListener('click', () => {
  */
 const settingOverlayForm = document.querySelector('[data-settings-form]')
 
-
 settingOverlayForm.addEventListener('submit', (event) => {
     // Prevent the default form submission behavior
     event.preventDefault()
@@ -303,6 +303,7 @@ listButton.addEventListener('click', handleShowMoreClick)
 /**
  * Handles the "Show more" button click by loading and displaying additional items
  */
+
 function handleShowMoreClick() {
     const fragment = document.createDocumentFragment()
     const startOfPage = page * BOOKS_PER_PAGE
