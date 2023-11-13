@@ -209,12 +209,12 @@ showmoreoftheremainingbook()
 */
 
 const createOverlayToggle = (buttonSelector, overlaySelector, focusElementSelector) => {
-    const button = document.querySelector(buttonSelector);
-    const overlay = document.querySelector(overlaySelector);
-    const focusElement = focusElementSelector ? document.querySelector(focusElementSelector) : null;
+    const button = document.querySelector(buttonSelector)
+    const overlay = document.querySelector(overlaySelector)
+    const focusElement = focusElementSelector ? document.querySelector(focusElementSelector) : null
 
     button.addEventListener('click', () => {
-        overlay.open = !overlay.open;
+        overlay.open = !overlay.open
 
         if (focusElement) {
             focusElement.focus()
@@ -294,7 +294,7 @@ const createThemeUpdater = (formSelector, overlaySelector) => {
     return updateTheme
 }
 
-const updateTheme = createThemeUpdater('[data-settings-form]', '[data-settings-overlay]');
+const updateTheme = createThemeUpdater('[data-settings-form]', '[data-settings-overlay]')
 updateTheme()
 
 
