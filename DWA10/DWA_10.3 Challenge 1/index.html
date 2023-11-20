@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tally Counter</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/themes/light.css" />
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/shoelace-autoloader.js">
+    </script>
+</head>
+
+<body>
+
+    <h1>Tally Counter</h1>
+    <div data-key="counter" class="counter">0</div>
+    <div class="buttons">
+        <sl-button data-key="Add" variant="default" size="large" style="width: 100%;">+</sl-button>
+        <sl-button data-key="subtract" variant="default" size="large" style="width: 100%;">-</sl-button>
+    </div>
+    <div class="buttons">
+        <sl-button data-key="reset" variant="default" size="large" style="width: 100%;">
+            <sl-icon slot="suffix" name="arrow-counterclockwise"></sl-icon>
+            Reset
+        </sl-button>
+    </div>
+
+</body>
+
+</html>
