@@ -1,49 +1,6 @@
-// Define action types
-const add = 'ADD';
-const subtract = 'SUBTRACT';
-const reset = 'RESET';
-
-// Reducer function to manage state changes
-const tallyReducer = (state = { count: 0 }, action) => {
-  switch (action.type) {
-    case add:
-      return { count: state.count + 1 };
-    case subtract:
-      return { count: state.count - 1 };
-    case reset:
-      return { count: 0 };
-    default:
-      return state;
-  }
-};
-
-// Store implementation
-const createStore = (reducer) => {
-  let state = undefined;
-  const subscribers = [];
-
-  const getState = () => state;
-
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    subscribers.forEach((subscriber) => subscriber());
-  };
-
-  const subscribe = (subscriber) => {
-    subscribers.push(subscriber);
-    return () => {
-      const index = subscribers.indexOf(subscriber);
-      if (index !== -1) {
-        subscribers.splice(index, 1);
-      }
-    };
-  };
-
-  // Initialize state
-  dispatch({});
-
-  return { getState, dispatch, subscribe };
-};
+import { createStore } from './model/store';
+import { tallyReducer } from './model/reducers';
+import { add, subtract, reset } from './model/actions';
 
 // Create the store with the tallyReducer
 const tallyStore = createStore(tallyReducer);
